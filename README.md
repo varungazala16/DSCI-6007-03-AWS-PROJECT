@@ -1,64 +1,33 @@
-# DSCI-6007-03-AWS-PROJECT
-📈 Stock Market Analysis Using AWS
+# DSCI-6007-03 - AWS Stock-Analytics Pipeline  
+📈 *Intraday Market Data on S3, Glue, Athena & Power BI*
 
-📌 Project Overview
+---
 
-Stock markets are highly volatile and require robust data processing for accurate insights. This project leverages AWS services to build a scalable stock market analysis pipeline, enabling real-time data processing, storage, and analysis.
+## 📌 Project Overview
+Accurate market insight depends on timely processing of high-frequency price data.  
+This repository contains ingestion scripts and ETL code for a **serverless, low-latency stock-analytics platform** on AWS.  
+Raw OHLCV bars captured every five minutes are landed in Amazon S3, transformed to partitioned Parquet with AWS Glue, queried via Amazon Athena, and visualised in Power BI Desktop running on a Windows EC2 instance.
 
-🚀 Problem Statement
+---
 
-Traditional methods struggle with real-time stock data processing due to high data volume and velocity. Our solution efficiently handles this challenge by using Kafka on EC2, SageMaker, S3, Glue, and Athena.
+## 🚀 Problem Statement
+Traditional on-prem pipelines cannot ingest and visualise intraday data fast enough without costly databases and manual ETL.  
+The goal is to **streamline ingestion, minimise operating cost, and empower analysts to build their own visuals**—all while maintaining sub-minute freshness.
 
-🔧 Tech Stack
+---
 
-Amazon EC2 (Kafka for real-time data streaming)
-Amazon Sagemaker (Model training and prediction)
-Amazon S3 (Data storage)
-AWS Glue (ETL for structuring data)
-Amazon Athena (Fast querying and insights)
-🏗️ Architecture
+## 🔧 Tech Stack
 
-Kafka on EC2 streams stock market data in real-time.
-SageMaker processes the data and performs predictions.
-Amazon S3 stores the raw and processed data.
-AWS Glue transforms and structures the data.
-Amazon Athena enables fast querying and visualization.
-📅 Project Timeline
+| Layer | Service | Purpose |
+|-------|---------|---------|
+| Ingestion | **Python script on Windows EC2** (Task Scheduler) | Calls Alpha Vantage API every 5 min; uploads CSV to S3 |
+| Storage   | **Amazon S3** | Durable, cheap object store for raw & transformed data |
+| ETL       | **AWS Glue** | Converts CSV → Parquet, enforces schema, registers tables |
+| Query     | **Amazon Athena** | Serverless SQL over Parquet for ad-hoc analysis |
+| Visual    | **Power BI Desktop** on the same EC2 host | Analysts create their own charts via Athena ODBC driver |
+| Ops / Monitoring | **CloudWatch Logs & Alarms** | Tracks ingestion success, latency, and usage metrics |
 
-Date	Milestone
-15-Feb-2025	Data Extraction
-22-Feb-2025	Data Transformation
-28-Feb-2025	Data Loading
-12-Mar-2025	Secure Storage
-19-Mar-2025	Monitoring
-02-Apr-2025	Data Visualization
-23-Apr-2025	Data Analysis
-👨‍💻 Team Members
+---
 
-Varun Gazala
-Devikinandan
-Pravalika
-🔍 How to Use
+## 🏗️ Architecture
 
-Clone the Repository
-git clone https://github.com/varungazala16/aws-stock-analysis.git
-cd aws-stock-analysis
-
-
-
-Deploy AWS Services
-Set up Kafka on EC2 for real-time data streaming.
-Train and deploy models using SageMaker.
-Store data in Amazon S3 and structure it using Glue.
-Query insights using Athena.
-🛠️ Future Improvements
-
-Integration with AWS Lambda for serverless execution.
-Improved machine learning models for higher accuracy.
-Dashboard using Amazon QuickSight for interactive insights.
-
-
-
-📜 License
-
-This project is licensed under the MIT License.
